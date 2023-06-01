@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 public interface StockService {
     Mono<StockResponse> getStock(String id);
 
-    Flux<StockResponse> getAll();
+    Flux<StockResponse> getAll(double priceGreaterThan);
 
     Mono<StockResponse> save(StockRequest request);
 }

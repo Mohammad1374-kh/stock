@@ -21,8 +21,10 @@ public class Controller {
     }
 
     @GetMapping("/all")
-    public Flux<StockResponse> getAll(){
-        return service.getAll();
+    public Flux<StockResponse> getAll(
+            @RequestParam(required = false, defaultValue = "0")
+                double priceGreaterThan){
+        return service.getAll(priceGreaterThan);
     }
 
     @PostMapping("/save")

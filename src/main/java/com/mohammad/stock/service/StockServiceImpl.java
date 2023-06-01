@@ -20,8 +20,9 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public Flux<StockResponse> getAll() {
+    public Flux<StockResponse> getAll(double priceGreaterThan) {
         return repo.findAll()
+                .filter(stock -> stock.getPrice()> priceGreaterThan)
                 .map(StockResponse::fromEntity);
     }
 
