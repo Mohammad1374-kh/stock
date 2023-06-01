@@ -24,7 +24,7 @@ public class Stock {
     private String name;
     @Getter
     @NonNull
-    private double price;
+    private Double price;
     @Getter
     @NonNull
     private Currency currency;

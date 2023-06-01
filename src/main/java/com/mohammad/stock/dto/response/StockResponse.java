@@ -14,7 +14,7 @@ public class StockResponse {
     private String id;
     @JsonProperty("stockName")
     private String name;
-    private double price;
+    private Double price;
     private Currency currency;
 
     public static StockResponse fromEntity(Stock stock) {

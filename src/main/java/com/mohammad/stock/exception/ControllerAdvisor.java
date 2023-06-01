@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Locale;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
@@ -25,6 +26,12 @@ public class ControllerAdvisor {
     protected Mono<ResponseEntity<Object>> handleUserNotFoundException(StockNotFoundException ex,
                                                                        Locale locale) {
         return Mono.just(buildErrorResponse(ex, locale, NOT_FOUND));
+    }
+    @ExceptionHandler(StockSaveException.class)
+    @ResponseStatus(BAD_REQUEST)
+    protected Mono<ResponseEntity<Object>> handleStockSaveException(StockSaveException ex,
+                                                                       Locale locale) {
+        return Mono.just(buildErrorResponse(ex, locale, BAD_REQUEST));
     }
 
     private ResponseEntity<Object> buildErrorResponse(Exception exception,

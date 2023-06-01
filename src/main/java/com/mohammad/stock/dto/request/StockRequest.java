@@ -13,7 +13,7 @@ import lombok.*;
 public class StockRequest {
     @JsonProperty("stockName")
     private String name;
-    private double price;
+    private Double price;
     private Currency currency;
 
     public Stock toEntity() {

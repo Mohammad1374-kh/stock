@@ -3,6 +3,7 @@ package com.mohammad.stock.service;
 import com.mohammad.stock.dto.request.StockRequest;
 import com.mohammad.stock.dto.response.StockResponse;
 import com.mohammad.stock.exception.StockNotFoundException;
+import com.mohammad.stock.exception.StockSaveException;
 import com.mohammad.stock.repository.StockRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,11 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public Mono<StockResponse> save(StockRequest request) {
-        return repo.save(request.toEntity())
+
+        return Mono.just(request)
+                .map(StockRequest::toEntity)
+                .flatMap(repo::save)
+                .onErrorMap(ex-> new StockSaveException())
                 .map(StockResponse::fromEntity);
     }
 }
