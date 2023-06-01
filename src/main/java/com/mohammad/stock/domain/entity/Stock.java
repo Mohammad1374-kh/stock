@@ -20,10 +20,13 @@ public class Stock {
     @Getter
     private String id;
     @Getter
+    @NonNull
     private String name;
     @Getter
+    @NonNull
     private double price;
     @Getter
+    @NonNull
     private Currency currency;
 
 }
