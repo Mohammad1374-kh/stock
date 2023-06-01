@@ -9,8 +9,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import java.util.Locale;
 
+import java.util.Locale;
 
 
 @RestController
@@ -24,25 +24,34 @@ public class Controller {
     //TODO: Locale is not working fine
     @GetMapping("/{id}")
     public Mono<Response<StockResponse>> getStock(@RequestParam(required = false, defaultValue = "en")
-                                                      Locale locale, @PathVariable String id)
-                                                   {
+                                                  Locale locale, @PathVariable String id) {
         return service.getStock(id)
                 .map(stockResponse -> Response.<StockResponse>builder()
                         .success(true)
-                        .message(messageSource.getMessage("stock.found",null,locale))
+                        .message(messageSource.getMessage("stock.found", null, locale))
                         .entity(stockResponse)
                         .build());
     }
 
     @GetMapping("/all")
-    public Flux<StockResponse> getAll(
+    public Flux<Response<StockResponse>> getAll(
             @RequestParam(required = false, defaultValue = "0")
-                double priceGreaterThan){
-        return service.getAll(priceGreaterThan);
+            double priceGreaterThan, Locale locale) {
+        return service.getAll(priceGreaterThan)
+                .map(stockResponse -> Response.<StockResponse>builder()
+                        .success(true)
+                        .message(messageSource.getMessage("stocks.are.fetched", null, locale))
+                        .entity(stockResponse)
+                        .build());
     }
 
     @PostMapping("/save")
-    public Mono<StockResponse> save(@RequestBody StockRequest request){
-        return service.save(request);
+    public Mono<Response<StockResponse>> save(@RequestBody StockRequest request,Locale locale) {
+        return service.save(request)
+                .map(stockResponse -> Response.<StockResponse>builder()
+                .success(true)
+                .message(messageSource.getMessage("stock.saved", null, locale))
+                .entity(stockResponse)
+                .build());
     }
 }
